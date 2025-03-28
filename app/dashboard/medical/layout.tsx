@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { 
@@ -41,7 +41,7 @@ const sidebarItems = {
   ],
 };
 
-export default function DashboardLayout({
+function LayoutContent({
   children,
 }: {
   children: React.ReactNode;
@@ -153,5 +153,19 @@ export default function DashboardLayout({
         </main>
       </div>
     </div>
+  );
+}
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#a5daad] flex items-center justify-center">
+      <div className="text-[#085928] text-xl">Loading...</div>
+    </div>}>
+      <LayoutContent children={children} />
+    </Suspense>
   );
 } 

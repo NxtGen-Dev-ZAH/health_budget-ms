@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 const roleSpecificContent = {
@@ -32,7 +33,7 @@ const roleSpecificContent = {
   },
 };
 
-export default function MedicalDashboard() {
+function DashboardContent() {
   const searchParams = useSearchParams();
   const role = searchParams.get('role') || 'smo';
   const content = roleSpecificContent[role as keyof typeof roleSpecificContent];
@@ -133,5 +134,13 @@ export default function MedicalDashboard() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function MedicalDashboard() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DashboardContent />
+    </Suspense>
   );
 } 
